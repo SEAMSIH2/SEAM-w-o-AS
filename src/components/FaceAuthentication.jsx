@@ -8,7 +8,6 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import WarningIcon from "@mui/icons-material/Warning";
 import ReactWebcam from "react-webcam";
 import { CircularProgress } from "@mui/material";
-import AuthenticatedProfile from "./AuthenticatedProfile";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
@@ -21,6 +20,10 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
   const [isValidAadhaar, setIsValidAadhaar] = useState(false);
   const [linkedFace, setLinkedFace] = useState(null);
 
+  const webcamRef = useRef(null);
+  const [faceMatcher, setFaceMatcher] = useState(null);
+
+  // Handle Aadhaar input
   const handleAadhaarChange = (e) => {
     const value = e.target.value.replace(/\s+/g, ""); // Remove spaces
     if (/^\d{0,12}$/.test(value)) {
@@ -44,41 +47,18 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
     }
   };
 
-  const [instructions, setInstructions] = useState({
-    camera: false,
-    lighting: false,
-  });
-
-  const webcamRef = useRef(null);
-  const [faceMatcher, setFaceMatcher] = useState(null);
-
-  useEffect(() => {
-    // Check if the webcam is accessible
-    const checkCameraAccess = async () => {
-      try {
-        await navigator.mediaDevices.getUserMedia({ video: true });
-        setCameraError(null); // Clear any previous errors if camera is accessible
-      } catch (err) {
-        setCameraError(
-          "Camera access denied. Please check your browser settings and allow camera access"
-        );
-      }
-    };
-    checkCameraAccess();
-  });
-
   // Initialize face matcher when registered faces change
   useEffect(() => {
-    if (registeredFaces.length) {
+    if (registeredFaces.length > 0) {
       const labeledDescriptors = registeredFaces.map(
         (face) =>
           new faceapi.LabeledFaceDescriptors(face.name, [face.descriptor])
       );
-      setFaceMatcher(new faceapi.FaceMatcher(labeledDescriptors, 0.45));
-      setIsFaceMatcherLoaded(true);
+      const matcher = new faceapi.FaceMatcher(labeledDescriptors, 0.45);
+      setFaceMatcher(matcher);
+      setIsFaceMatcherLoaded(true); // Mark face matcher as loaded
     } else {
-      setFaceMatcher(null);
-      setIsFaceMatcherLoaded(false);
+      setIsFaceMatcherLoaded(false); // Reset if there are no registered faces
     }
   }, [registeredFaces]);
 
@@ -109,6 +89,14 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
     return () => clearInterval(intervalId); // Cleanup on component unmount
   }, []);
 
+  // Texture analysis for anti-spoofing (e.g., LBP or another method)
+  const analyzeTexture = async (img) => {
+    // Simulate texture analysis here. Replace this with actual texture analysis.
+    const textureScore = Math.random(); // Simulated value (for testing)
+    console.log("Texture Analysis: ", textureScore); // Log texture score
+    return textureScore;
+  };
+
   const handleAuthenticate = async () => {
     if (!linkedFace) {
       alert("No face data linked with this Aadhaar number.");
@@ -123,23 +111,36 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
       img.src = imageSrc;
 
       img.onload = async () => {
+        // Perform face detection and recognition
         const detections = await faceapi
           .detectSingleFace(img)
           .withFaceLandmarks()
           .withFaceDescriptor();
 
         if (detections && faceMatcher) {
+          console.log("Detected face:", detections); // Log face detection result
           const bestMatch = faceMatcher.findBestMatch(detections.descriptor);
+          console.log("Best Match:", bestMatch); // Log face recognition result
+
+          // Perform texture analysis for anti-spoofing
+          const textureScore = await analyzeTexture(img);
+          console.log("Texture Score:", textureScore); // Log texture score
 
           if (
             bestMatch.label.trim().toLowerCase() ===
-            linkedFace.name.trim().toLowerCase()
+              linkedFace.name.trim().toLowerCase() &&
+            textureScore > 0.5 // Threshold for texture score (anti-spoofing)
           ) {
+            console.log("Authentication Success!"); // Log authentication success
             onAuthenticated(linkedFace.name); // Redirect on success
           } else {
-            alert("Face authentication failed. Please try again.");
+            console.log("Authentication failed."); // Log authentication failure
+            alert(
+              "Face authentication failed. Spoof Detected. Please try again."
+            );
           }
         } else {
+          console.log("No face detected or no face descriptor found.");
           alert("No face detected.");
         }
       };
@@ -221,7 +222,6 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
                 transition: "border-color 0.3s",
               }}
             />
-
             {aadhaarNumber && (
               <Box
                 sx={{
@@ -237,7 +237,7 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
           </Box>
         </Box>
 
-        {/* Status Cards */}
+        {/* Face Matcher and Face Detection Status */}
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {/* Face Matcher Status */}
           <Box
