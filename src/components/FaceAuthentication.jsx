@@ -60,7 +60,7 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
         setCameraError(null); // Clear any previous errors if camera is accessible
       } catch (err) {
         setCameraError(
-          "Camera access denied. Please allow access to your camera."
+          "Camera access denied. Please check your browser settings and allow camera access"
         );
       }
     };
@@ -69,16 +69,16 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
 
   // Initialize face matcher when registered faces change
   useEffect(() => {
-    if (registeredFaces.length > 0) {
+    if (registeredFaces.length) {
       const labeledDescriptors = registeredFaces.map(
         (face) =>
           new faceapi.LabeledFaceDescriptors(face.name, [face.descriptor])
       );
-      const matcher = new faceapi.FaceMatcher(labeledDescriptors, 0.45);
-      setFaceMatcher(matcher);
-      setIsFaceMatcherLoaded(true); // Mark face matcher as loaded
+      setFaceMatcher(new faceapi.FaceMatcher(labeledDescriptors, 0.45));
+      setIsFaceMatcherLoaded(true);
     } else {
-      setIsFaceMatcherLoaded(false); // Reset if there are no registered faces
+      setFaceMatcher(null);
+      setIsFaceMatcherLoaded(false);
     }
   }, [registeredFaces]);
 
@@ -221,6 +221,7 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
                 transition: "border-color 0.3s",
               }}
             />
+
             {aadhaarNumber && (
               <Box
                 sx={{

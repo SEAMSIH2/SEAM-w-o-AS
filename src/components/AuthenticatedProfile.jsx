@@ -1,7 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Paper, Box, Typography, Avatar } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const AuthenticatedProfile = ({ name, image, number }) => {
+  const navigate = useNavigate();
+
+  // Session timeout settings
+  const inactivityPeriod = 0.5 * 60 * 1000; // 15 minutes in milliseconds
+  let sessionTimeout;
+
+  // Logout function
+  const logoutUser = () => {
+    alert("Session expired due to Inactivity. Redirecting to Home Page.");
+    // Clear any session data
+    localStorage.clear();
+    // Redirect to login page
+    navigate("/");
+  };
+
+  // Reset timer on user interaction
+  const resetTimer = () => {
+    clearTimeout(sessionTimeout);
+    sessionTimeout = setTimeout(logoutUser, inactivityPeriod);
+  };
+
+  useEffect(() => {
+    // Start the session timeout timer
+    resetTimer();
+
+    // Add event listeners for user activity
+    const events = ["click", "mousemove", "keydown", "scroll", "touchstart"];
+    events.forEach((event) => window.addEventListener(event, resetTimer));
+
+    // Cleanup on component unmount
+    return () => {
+      clearTimeout(sessionTimeout);
+      events.forEach((event) => window.removeEventListener(event, resetTimer));
+    };
+  }, []); // Empty dependency array ensures this runs only once after component mounts
+
   if (!name) return null;
 
   return (
@@ -10,7 +47,7 @@ const AuthenticatedProfile = ({ name, image, number }) => {
       sx={{
         p: 4,
         width: "600px",
-        height: "475px", // Set a fixed width for the card
+        height: "475px",
         mx: "auto",
         mt: 5,
         textAlign: "center",
@@ -21,7 +58,6 @@ const AuthenticatedProfile = ({ name, image, number }) => {
         position: "relative",
       }}
     >
-      {/* Top Left Logo */}
       <Box
         component="img"
         src="/src/assets/logo-left.png"
@@ -34,8 +70,6 @@ const AuthenticatedProfile = ({ name, image, number }) => {
           height: 45,
         }}
       />
-
-      {/* Top Right Logo */}
       <Box
         component="img"
         src="/src/assets/logo-right.png"
@@ -48,8 +82,6 @@ const AuthenticatedProfile = ({ name, image, number }) => {
           height: 55,
         }}
       />
-
-      {/* Success Message */}
       <Typography
         variant="h5"
         gutterBottom
@@ -60,8 +92,6 @@ const AuthenticatedProfile = ({ name, image, number }) => {
       >
         Authentication Successful!
       </Typography>
-
-      {/* Byline */}
       <Typography
         variant="body2"
         gutterBottom
@@ -74,8 +104,6 @@ const AuthenticatedProfile = ({ name, image, number }) => {
       >
         Secure authentication via SEAM
       </Typography>
-
-      {/* Welcome Text */}
       <Typography
         variant="h6"
         gutterBottom
@@ -84,8 +112,6 @@ const AuthenticatedProfile = ({ name, image, number }) => {
         Welcome,{" "}
         <span style={{ color: "#2234a8", fontWeight: "bold" }}>{name}</span>!
       </Typography>
-
-      {/* User Details */}
       <Box
         sx={{
           display: "flex",
@@ -95,7 +121,6 @@ const AuthenticatedProfile = ({ name, image, number }) => {
           gap: 3,
         }}
       >
-        {/* Registered Image */}
         <Box>
           <Typography
             variant="subtitle1"
@@ -113,15 +138,13 @@ const AuthenticatedProfile = ({ name, image, number }) => {
             src={image}
             alt="Registered face"
             sx={{
-              width: 200, // Fixed width for the avatar
-              height: 200, // Fixed height for the avatar
+              width: 200,
+              height: 200,
               border: "2px solid #4caf50",
               boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
             }}
           />
         </Box>
-
-        {/* Personalized Message */}
         <Typography
           variant="body6"
           sx={{
