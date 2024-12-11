@@ -89,12 +89,67 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
     return () => clearInterval(intervalId); // Cleanup on component unmount
   }, []);
 
-  // Texture analysis for anti-spoofing (e.g., LBP or another method)
-  const analyzeTexture = async (img) => {
-    // Simulate texture analysis here. Replace this with actual texture analysis.
-    const textureScore = Math.random(); // Simulated value (for testing)
-    console.log("Texture Analysis: ", textureScore); // Log texture score
-    return textureScore;
+  // Texture analysis function
+  const analyzeTexture = (img) => {
+    // Convert image to grayscale
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const grayscale = new Uint8Array(imageData.width * imageData.height);
+
+    // Convert to grayscale
+    for (let i = 0; i < imageData.data.length; i += 4) {
+      const avg = Math.round(
+        (imageData.data[i] + imageData.data[i + 1] + imageData.data[i + 2]) / 3
+      );
+      grayscale[i / 4] = avg;
+    }
+
+    const lbpHist = new Array(256).fill(0);
+
+    // Calculate LBP
+    for (let y = 1; y < imageData.height - 1; y++) {
+      for (let x = 1; x < imageData.width - 1; x++) {
+        const centerIdx = y * imageData.width + x;
+        const centerValue = grayscale[centerIdx];
+
+        let binaryPattern = 0;
+        let bitPosition = 0;
+
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            if (dx === 0 && dy === 0) continue; // Skip the center pixel
+            const neighborIdx = (y + dy) * imageData.width + (x + dx);
+            const neighborValue = grayscale[neighborIdx];
+
+            binaryPattern |=
+              (neighborValue >= centerValue ? 1 : 0) << bitPosition;
+            bitPosition++;
+          }
+        }
+
+        lbpHist[binaryPattern]++;
+      }
+    }
+
+    // Normalize histogram
+    const totalPixels = (imageData.width - 2) * (imageData.height - 2);
+    const normalizedHist = lbpHist.map((count) => count / totalPixels);
+
+    // Compute texture score (example: entropy of histogram)
+    const textureScore = normalizedHist.reduce((sum, p) => {
+      if (p > 0) {
+        return sum - p * Math.log2(p);
+      }
+      return sum;
+    }, 0);
+
+    console.log("LBP Texture Score:", textureScore);
+    return textureScore; // Higher score can indicate better texture quality
   };
 
   const handleAuthenticate = async () => {
@@ -129,7 +184,7 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
           if (
             bestMatch.label.trim().toLowerCase() ===
               linkedFace.name.trim().toLowerCase() &&
-            textureScore > 0.5 // Threshold for texture score (anti-spoofing)
+            textureScore > 0.8 // Threshold for texture score (anti-spoofing)
           ) {
             console.log("Authentication Success!"); // Log authentication success
             onAuthenticated(linkedFace.name); // Redirect on success
