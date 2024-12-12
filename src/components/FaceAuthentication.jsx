@@ -237,7 +237,7 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
           sx={{
             color: "#333",
             fontWeight: "bold",
-            borderBottom: "2px solid #00C853",
+            borderBottom: "2px solid #006FB9",
             paddingBottom: "5px",
           }}
         >
@@ -388,7 +388,7 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
           sx={{
             color: "#333",
             fontWeight: "bold",
-            borderBottom: "2px solid #00C853",
+            borderBottom: "2px solid #006FB9",
             paddingBottom: "5px",
           }}
         >
@@ -483,7 +483,7 @@ const FaceAuthentication = ({ registeredFaces, onAuthenticated }) => {
           sx={{
             color: "#333",
             fontWeight: "bold",
-            borderBottom: "2px solid #00C853",
+            borderBottom: "2px solid #006FB9",
             paddingBottom: "5px",
           }}
         >

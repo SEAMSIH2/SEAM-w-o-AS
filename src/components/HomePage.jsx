@@ -1,35 +1,43 @@
 import React, { useState } from "react";
-import { useMediaQuery, useTheme, IconButton } from "@mui/material";
-import { Box, Typography, Button, Grid, Paper, Container } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Menu,
+  MenuItem,
+  useMediaQuery,
+  useTheme,
+  IconButton,
+} from "@mui/material";
+import {
+  Box,
+  Grid,
+  Paper,
+  Container,
+  Select,
+  FormControl,
+} from "@mui/material";
 import { Link } from "react-router-dom";
-import { Fade } from "react-awesome-reveal";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion } from "framer-motion";
 
-import {
-  Security as SecurityIcon,
-  CloudSync as CloudSyncIcon,
-  VerifiedUser as VerifiedUserIcon,
-  LinearScale as LinearScaleIcon,
-  PlayArrow as PlayArrowIcon,
-  Pause as PauseIcon,
-} from "@mui/icons-material";
-
 const HomePage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [language, setLanguage] = useState("English");
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  // Indian Color Palette
-  const indianColors = {
-    primary: "#1A73E8", // Modern Indigo
-    secondary: "#FF9800", // Saffron
-    accent: "#4CAF50", // Emerald Green
-    background: "#F0F4C3", // Soft Khadi
+  const handleLanguageChange = (event) => {
+    setLanguage(event.target.value);
+    // Logic for dynamically changing language across the UI
+    alert(`Language changed to ${event.target.value}`);
   };
 
+  const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
+  const handleMenuClose = () => setAnchorEl(null);
   // Image Slider Settings
   const sliderSettings = {
     dots: true,
@@ -65,76 +73,112 @@ const HomePage = () => {
     { src: "/images/seam-final.jpg", title: "Final Product" },
   ];
 
+  const indianColors = {
+    primary: "#004080",
+  };
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
   return (
     <Box
       sx={{
-        width: "100%",
-        minHeight: "100vh",
-        background: `linear-gradient(135deg, 
-          ${indianColors.background} 40%, 
-          ${indianColors.background}CC 50%, 
-          ${indianColors.background}99 100%)`,
-        position: "relative",
-        overflow: "hidden",
+        width: "100%", // Ensure full viewport width
+        minHeight: "100vh", // Ensure full viewport height
         fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+        overflow: "hidden", // Prevent overflow
       }}
     >
-      {/* Hero Section */}
+      {/* Top Bar */}
+      <AppBar
+        position="static"
+        sx={{
+          background: "linear-gradient(135deg, #001f4d, #004080)",
+          width: "100%", // Ensure AppBar spans full width
+        }}
+      ></AppBar>
+
       <Box
         sx={{
+          backgroundImage: `
+      linear-gradient(rgba(0, 64, 128, 0.7), rgba(26, 117, 255, 0.7)), 
+      url('/src/assets/bg.png')
+    `,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           py: 8,
+          color: "white",
           textAlign: "center",
-          background:
-            "linear-gradient(180deg, white 18%, rgba(255, 190, 50, 0.8) 65%, rgba(10, 190, 40, 0.7) 100%) ",
-          borderRadius: "12px",
+          width: "100%",
+          height: "65vh", // Full width of the container
+          marginTop: "0vh",
         }}
       >
-        <Fade cascade>
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: "bold",
-              color: "#2234a8",
-              textShadow: "1px 1px 4px rgba(0, 0, 0, 0.3)",
-            }}
-          >
-            Welcome to SEAM
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              mt: 2,
-              color: "#000",
-              fontWeight: "bold",
-            }}
-          >
-            Secure Encryption and Authentication Model
-          </Typography>
-          <Button
-            variant="contained"
-            size="large"
-            component={Link}
-            to="/authenticate"
-            startIcon={<SecurityIcon />}
-            sx={{
-              mt: 4,
-              px: 4,
-              py: 2,
-              backgroundColor: "#2962FF",
-              color: "white",
-              fontWeight: "bold",
-              borderRadius: "25px",
-              ":hover": {
-                backgroundColor: "#FFA500",
-              },
-            }}
-          >
-            Get Started
-          </Button>
-        </Fade>
+        <Slider {...sliderSettings}>
+          {/* Slide 1 */}
+          <Box>
+            <Typography variant="h3" sx={{ fontWeight: "bold" }}>
+              Welcome to SEAM
+            </Typography>
+            <Typography variant="h6" sx={{ mt: 2 }}>
+              Secure Encryption and Authentication Model
+            </Typography>
+          </Box>
+
+          {/* Slide 2 */}
+          <Box>
+            <Typography variant="h3" sx={{ fontWeight: "bold" }}>
+              Update your Aadhaar through SEAM!
+            </Typography>
+            <Typography variant="h6" sx={{ mt: 2 }}>
+              Ensure accuracy and security in your updates.
+            </Typography>
+          </Box>
+
+          {/* Slide 3 */}
+          <Box>
+            <Typography variant="h3" sx={{ fontWeight: "bold" }}>
+              Your Privacy, Our Responsibility
+            </Typography>
+            <Typography variant="h6" sx={{ mt: 2 }}>
+              We use state-of-the-art encryption to protect your data.
+            </Typography>
+          </Box>
+
+          {/* Slide 4 */}
+          <Box>
+            <Typography variant="h3" sx={{ fontWeight: "bold" }}>
+              Seamless and Secure
+            </Typography>
+            <Typography variant="h6" sx={{ mt: 2 }}>
+              Simplifying your authentication needs with cutting-edge solutions.
+            </Typography>
+          </Box>
+        </Slider>
+
+        {/* Get Started Button */}
+        <Button
+          variant="contained"
+          size="large"
+          component={Link}
+          to="/authenticate"
+          sx={{
+            mt: 4,
+            px: 4,
+            py: 2,
+            backgroundColor: "white",
+            color: "#2962FF",
+            fontWeight: "bold",
+            borderRadius: "25px",
+            ":hover": {
+              backgroundColor: "#FFA500",
+            },
+          }}
+        >
+          Get Started
+        </Button>
       </Box>
 
-      {/* Features Section */}
+      {/* Interactive Features Section */}
       <Container sx={{ my: 8 }}>
         <Typography
           variant="h4"
@@ -142,240 +186,199 @@ const HomePage = () => {
             textAlign: "center",
             fontWeight: "bold",
             mb: 4,
-            color:
-              "linear-gradient(135deg, white 12%, rgba(10, 190, 40, 0.9) 100%)",
-            borderRadius: "12px",
+            color: "#004080",
           }}
         >
           Why Choose SEAM?
         </Typography>
         <Grid container spacing={4}>
-          <Grid item xs={12} md={4}>
-            <Fade>
-              <Paper
-                elevation={3}
-                sx={{
-                  p: 4,
-                  borderRadius: "12px",
-                  backgroundColor: "#e3f2fd",
-                  height: "100%",
-                }}
+          {[
+            {
+              title: "Secure Authentication",
+              description:
+                "Liveness detection ensures only authorized users access services.",
+            },
+            {
+              title: "Tamper-Proof Models",
+              description:
+                "Encryption and obfuscation protect models from reverse engineering.",
+            },
+            {
+              title: "Optimized for Networks",
+              description:
+                "Lightweight models ensure smooth transactions even on 3G networks.",
+            },
+          ].map((feature, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
               >
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", color: "#1976d2", mb: 2 }}
+                <Paper
+                  elevation={3}
+                  sx={{
+                    p: 4,
+                    borderRadius: "12px",
+                    textAlign: "center",
+                  }}
                 >
-                  Secure Authentication
-                </Typography>
-                <Typography variant="body1" sx={{ color: "#555" }}>
-                  Liveness detection ensures only authorized users access
-                  services.
-                </Typography>
-              </Paper>
-            </Fade>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Fade>
-              <Paper
-                elevation={3}
-                sx={{
-                  p: 4,
-                  borderRadius: "12px",
-                  backgroundColor: "#e8f5e9",
-                  height: "100%",
-                }}
-              >
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", color: "#2e7d32", mb: 2 }}
-                >
-                  Tamper-Proof Models
-                </Typography>
-                <Typography variant="body1" sx={{ color: "#555" }}>
-                  Encryption and obfuscation protect models from reverse
-                  engineering.
-                </Typography>
-              </Paper>
-            </Fade>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Fade>
-              <Paper
-                elevation={3}
-                sx={{
-                  p: 4,
-                  borderRadius: "12px",
-                  backgroundColor: "#fff3e0",
-                  height: "100%",
-                }}
-              >
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", color: "#ef6c00", mb: 2 }}
-                >
-                  Optimized for Networks
-                </Typography>
-                <Typography variant="body1" sx={{ color: "#555" }}>
-                  Lightweight models ensure smooth transactions even on 3G
-                  networks.
-                </Typography>
-              </Paper>
-            </Fade>
-          </Grid>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold", color: "#004080", mb: 2 }}
+                  >
+                    {feature.title}
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: "#555" }}>
+                    {feature.description}
+                  </Typography>
+                </Paper>
+              </motion.div>
+            </Grid>
+          ))}
         </Grid>
       </Container>
-
-      {/* Process Flow */}
-      <Box
-        sx={{
-          py: 8,
-          backgroundColor: "#BBDEFB",
-          textAlign: "center",
-          borderRadius: "12px",
-        }}
-      >
-        <Fade>
-          <Typography
-            variant="h4"
-            sx={{
-              fontWeight: "bold",
-              color: "#2234a8",
-              mb: 4,
-            }}
-          >
-            How SEAM Works
-          </Typography>
-          <Container>
-            <Typography
-              variant="body1"
-              sx={{
-                mb: 6,
-                color: "#555",
-                lineHeight: "1.6",
-                fontweight: "bold",
-              }}
-            >
-              SEAM integrates advanced face authentication and AI-driven
-              liveness checks directly into your browser. Here’s how it works:
-            </Typography>
-            <Grid container spacing={4}>
-              <Grid item xs={12} md={3}>
-                <Paper
-                  elevation={3}
+      {/* How It Works Section */}
+      <Container sx={{ my: 8 }}>
+        <Typography
+          variant="h4"
+          sx={{
+            textAlign: "center",
+            fontWeight: "bold",
+            mb: 4,
+            color: "#004080",
+          }}
+        >
+          How It Works
+        </Typography>
+        <Grid container spacing={4}>
+          {[
+            {
+              step: "1",
+              title: "Register",
+              description: "Create your account and start your secure journey.",
+              icon: <PersonAddIcon sx={{ fontSize: 50, color: "#004080" }} />,
+            },
+            {
+              step: "2",
+              title: "Authenticate",
+              description: "Use our secure model to validate your identity.",
+              icon: <FingerprintIcon sx={{ fontSize: 50, color: "#004080" }} />,
+            },
+            {
+              step: "3",
+              title: "Access",
+              description:
+                "Enjoy seamless and secure access to all your resources.",
+              icon: <LockOpenIcon sx={{ fontSize: 50, color: "#004080" }} />,
+            },
+          ].map((step, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Box
                   sx={{
-                    p: 3,
+                    p: 4,
+                    textAlign: "center",
+                    border: "1px solid #ccc",
                     borderRadius: "12px",
+                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+                    backgroundColor: "#f9f9f9",
                   }}
                 >
+                  <Box sx={{ mb: 2 }}>{step.icon}</Box>
                   <Typography
                     variant="h6"
-                    sx={{
-                      fontWeight: "bold",
-                      color: "#4caf50",
-                      mb: 2,
-                    }}
+                    sx={{ fontWeight: "bold", color: "#004080", mb: 1 }}
                   >
-                    Step 1
+                    Step {step.step}: {step.title}
                   </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: "#555",
-                    }}
-                  >
-                    Access SEAM via a secure desktop browser.
+                  <Typography variant="body1" sx={{ color: "#555" }}>
+                    {step.description}
                   </Typography>
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <Paper
-                  elevation={3}
-                  sx={{
-                    p: 3,
-                    borderRadius: "12px",
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: "bold",
-                      color: "#4caf50",
-                      mb: 2,
-                    }}
-                  >
-                    Step 2
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: "#555",
-                    }}
-                  >
-                    Capture your face via webcam with real-time liveness
-                    detection.
-                  </Typography>
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <Paper
-                  elevation={3}
-                  sx={{
-                    p: 3,
-                    borderRadius: "12px",
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: "bold",
-                      color: "#4caf50",
-                      mb: 2,
-                    }}
-                  >
-                    Step 3
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: "#555",
-                    }}
-                  >
-                    Authenticate using secure AI models.
-                  </Typography>
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={3}>
-                <Paper
-                  elevation={3}
-                  sx={{
-                    p: 3,
-                    borderRadius: "12px",
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: "bold",
-                      color: "#4caf50",
-                      mb: 2,
-                    }}
-                  >
-                    Step 4
-                  </Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: "#555",
-                    }}
-                  >
-                    Access your services securely.
-                  </Typography>
-                </Paper>
-              </Grid>
+                </Box>
+              </motion.div>
             </Grid>
-          </Container>
-        </Fade>
-      </Box>
+          ))}
+        </Grid>
+      </Container>
+      {/* Interactive Features Section */}
+      <Container sx={{ my: 8 }}>
+        <Typography
+          variant="h4"
+          sx={{
+            textAlign: "center",
+            fontWeight: "bold",
+            mb: 4,
+            color: "#004080",
+          }}
+        >
+          Why Choose SEAM?
+        </Typography>
+        <Grid container spacing={4}>
+          {[
+            {
+              title: "Secure Authentication",
+              description:
+                "Liveness detection ensures only authorized users access services.",
+              image: "https://via.placeholder.com/300?text=Authentication",
+            },
+            {
+              title: "Tamper-Proof Models",
+              description:
+                "Encryption and obfuscation protect models from reverse engineering.",
+              image: "https://via.placeholder.com/300?text=Tamper+Proof",
+            },
+            {
+              title: "Optimized for Networks",
+              description:
+                "Lightweight models ensure smooth transactions even on 3G networks.",
+              image: "https://via.placeholder.com/300?text=Optimized",
+            },
+          ].map((feature, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Paper
+                  elevation={3}
+                  sx={{
+                    p: 4,
+                    borderRadius: "12px",
+                    textAlign: "center",
+                    overflow: "hidden",
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={feature.image}
+                    alt={feature.title}
+                    sx={{
+                      width: "100%",
+                      height: 200,
+                      objectFit: "cover",
+                      mb: 2,
+                      borderRadius: "8px",
+                    }}
+                  />
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold", color: "#004080", mb: 2 }}
+                  >
+                    {feature.title}
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: "#555" }}>
+                    {feature.description}
+                  </Typography>
+                </Paper>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
 
       {/* Development Process Slider */}
       <Container sx={{ my: 6, position: "relative", zIndex: 2 }}>
@@ -394,8 +397,9 @@ const HomePage = () => {
         <Box
           sx={{
             position: "relative",
+            textAlign: "center",
             width: "100%",
-            maxWidth: 800,
+            maxWidth: "100%", // Maximize the width
             margin: "auto",
             borderRadius: "12px",
           }}
@@ -408,7 +412,7 @@ const HomePage = () => {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  p: 6,
+                  p: 8,
                 }}
               >
                 <motion.div
@@ -451,33 +455,15 @@ const HomePage = () => {
       <Box
         sx={{
           py: 4,
-          backgroundColor: "#2234a8",
+          backgroundColor: "#001f4d",
           textAlign: "center",
           color: "white",
-          borderRadius: "12px",
+          width: "100%", // Ensure footer is full width
         }}
       >
-        <Typography
-          variant="body2"
-          sx={{
-            mb: 2,
-          }}
-        >
+        <Typography variant="body2">
           © 2024 SEAM. All Rights Reserved.
         </Typography>
-        <Button
-          variant="contained"
-          component={Link}
-          to="/TeamPage"
-          sx={{
-            backgroundColor: "#4caf50",
-            ":hover": {
-              backgroundColor: "#66bb6a",
-            },
-          }}
-        >
-          Contact Us
-        </Button>
       </Box>
     </Box>
   );

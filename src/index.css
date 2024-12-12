@@ -3,8 +3,8 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: white;
-  color: rgba(255, 255, 255, 0.87);
+  color-scheme: light;
+  color: rgba(33, 53, 71, 0.87);
   background-color: #ffffff;
 
   font-synthesis: none;
@@ -13,32 +13,53 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Anchor styling */
 a {
   font-weight: 500;
   color: #646cff;
-  text-decoration: inherit;
+  text-decoration: none;
 }
+
 a:hover {
   color: #535bf2;
 }
 
+/* Ensure body uses the full viewport */
+html,
 body {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
-  place-items: center;
-  justify-content: center; /* Centers the content both horizontally and vertically */
-  min-width: 100vw;
-  min-height: 100vh;
-  height: 100%; /* Ensure body takes full height */
-  width: 100%; /* Ensure body takes full width */
+  justify-content: center;
+  align-items: center; /* Center content vertically and horizontally */
+  box-sizing: border-box; /* Include padding and border in element dimensions */
+  overflow: hidden; /* Prevent scrollbars */
   background-color: #ffffff;
 }
 
+/* Main content container styling */
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+/* Headings styling */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
+/* Buttons styling */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -47,6 +68,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
+  color: white;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -60,6 +82,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Light mode adjustments for color scheme */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -70,5 +93,6 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+    color: #1a1a1a;
   }
 }

@@ -80,7 +80,7 @@ function App() {
 
   if (!modelsLoaded) {
     return (
-      <Container maxWidth="lg">
+      <Container maxWidth={false} disableGutters>
         <Box
           sx={{
             display: "flex",
@@ -100,8 +100,8 @@ function App() {
   }
 
   return (
-    <Container maxWidth="lg">
-      <Box sx={{ my: 4 }}>
+    <Container maxWidth={false} disableGutters sx={{ overflowY: "auto" }}>
+      <Box sx={{ my: 4, overflowY: "auto" }}>
         <Header />
         <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 3 }}></Box>
         <Routes>

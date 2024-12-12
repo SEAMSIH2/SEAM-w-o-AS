@@ -1,52 +1,92 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
-
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Button,
+  IconButton,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Link } from "react-router-dom";
+// linear-gradient(to right, #001F3F, #003F7F)
 const Header = () => {
   return (
-    <Box sx={{ mb: 2, textAlign: "center", width: "100%" }}>
-      {/* Logo container */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 20, // Adjusted gap between logos
-          flexWrap: "wrap", // Allow logos to wrap on smaller screens
-          mb: 1,
-        }}
-      >
-        <img
-          src="/src/assets/logos/logo1.png"
-          alt="Logo 1"
-          style={{ height: "80px", maxWidth: "90%" }}
-        />
-        <img
-          src="/src/assets/logos/logo2.png"
-          alt="Logo 2"
-          style={{ height: "80px", maxWidth: "90%" }}
-        />
-        <img
-          src="/src/assets/logos/logo3.png"
-          alt="Logo 3"
-          style={{ height: "80px", maxWidth: "90%" }}
-        />
-      </Box>
+    <AppBar position="static" sx={{ background: "#FFFFFF" }}>
+      <Toolbar>
+        {/* Logo and Title */}
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: "flex",
+            alignItems: "center",
+            background: "#ffffff",
+          }}
+        >
+          <img
+            src="/src/assets/logos/logo3.png"
+            alt="Logo"
+            style={{ height: "50px", marginRight: "16px" }}
+          />
+          <img
+            src="/src/assets/logos/logo1.png"
+            alt="Logo"
+            style={{ height: "50px", marginRight: "16px" }}
+          />
+          <img
+            src="/src/assets/logos/logo2.png"
+            alt="Logo"
+            style={{ height: "50px", marginRight: "16px" }}
+          />
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ fontWeight: "bold", color: "#FFFFFF" }}
+          ></Typography>
+        </Box>
 
-      {/* Title Text */}
-      <Typography
-        variant="h9"
-        component="h1"
-        gutterBottom
-        sx={{
-          fontWeight: 600,
-          fontSize: { xs: "1rem", sm: "1.5rem", md: "1.25rem" }, // Responsive font size
-          lineHeight: 1.4,
-          color: "#000000",
-        }}
-      >
-        Secure Encryption and Authentication Model
-      </Typography>
-    </Box>
+        {/* Navigation Options */}
+        <Box sx={{ display: { xs: "none", md: "flex" }, gap: 2 }}>
+          <Button
+            component={Link}
+            to="/"
+            sx={{ color: "#00008B", fontWeight: "bold" }}
+          >
+            Home
+          </Button>
+          <Button
+            component={Link}
+            to="/authenticate"
+            sx={{ color: "#00008B", fontWeight: "bold" }}
+          >
+            Authenticate
+          </Button>
+          <Button
+            component={Link}
+            to="/"
+            sx={{ color: "#00008B", fontWeight: "bold" }}
+          >
+            Features
+          </Button>
+          <Button
+            component={Link}
+            to="/"
+            sx={{ color: "#00008B", fontWeight: "bold" }}
+          >
+            Contact
+          </Button>
+        </Box>
+
+        {/* Mobile Menu Icon */}
+        <Box sx={{ display: { xs: "flex", md: "none" } }}>
+          <IconButton edge="end" color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton>
+        </Box>
+      </Toolbar>
+
+      {/* Sub-header with logos */}
+    </AppBar>
   );
 };
 
