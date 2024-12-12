@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { TextField } from "@mui/material";
 import {
   AppBar,
   Toolbar,
@@ -101,7 +102,7 @@ const HomePage = () => {
         sx={{
           backgroundImage: `
       linear-gradient(rgba(0, 64, 128, 0.7), rgba(26, 117, 255, 0.7)), 
-      url('/src/assets/bg.png')
+      url('/src/assets/WhatsApp Image 2024-12-12 at 07.02.50_ebd374db.jpg')
     `,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -177,8 +178,6 @@ const HomePage = () => {
           Get Started
         </Button>
       </Box>
-
-      {/* Interactive Features Section */}
       <Container sx={{ my: 8 }}>
         <Typography
           variant="h4"
@@ -197,16 +196,19 @@ const HomePage = () => {
               title: "Secure Authentication",
               description:
                 "Liveness detection ensures only authorized users access services.",
+              icon: "🔑", // Key emoji
             },
             {
               title: "Tamper-Proof Models",
               description:
                 "Encryption and obfuscation protect models from reverse engineering.",
+              icon: "🛡️", // Shield emoji
             },
             {
               title: "Optimized for Networks",
               description:
                 "Lightweight models ensure smooth transactions even on 3G networks.",
+              icon: "📶", // Signal bars emoji
             },
           ].map((feature, index) => (
             <Grid item xs={12} md={4} key={index}>
@@ -223,6 +225,15 @@ const HomePage = () => {
                   }}
                 >
                   <Typography
+                    variant="h3"
+                    sx={{
+                      color: "#004080",
+                      mb: 2,
+                    }}
+                  >
+                    {feature.icon}
+                  </Typography>
+                  <Typography
                     variant="h6"
                     sx={{ fontWeight: "bold", color: "#004080", mb: 2 }}
                   >
@@ -237,73 +248,7 @@ const HomePage = () => {
           ))}
         </Grid>
       </Container>
-      {/* How It Works Section */}
-      <Container sx={{ my: 8 }}>
-        <Typography
-          variant="h4"
-          sx={{
-            textAlign: "center",
-            fontWeight: "bold",
-            mb: 4,
-            color: "#004080",
-          }}
-        >
-          How It Works
-        </Typography>
-        <Grid container spacing={4}>
-          {[
-            {
-              step: "1",
-              title: "Register",
-              description: "Create your account and start your secure journey.",
-              icon: <PersonAddIcon sx={{ fontSize: 50, color: "#004080" }} />,
-            },
-            {
-              step: "2",
-              title: "Authenticate",
-              description: "Use our secure model to validate your identity.",
-              icon: <FingerprintIcon sx={{ fontSize: 50, color: "#004080" }} />,
-            },
-            {
-              step: "3",
-              title: "Access",
-              description:
-                "Enjoy seamless and secure access to all your resources.",
-              icon: <LockOpenIcon sx={{ fontSize: 50, color: "#004080" }} />,
-            },
-          ].map((step, index) => (
-            <Grid item xs={12} md={4} key={index}>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <Box
-                  sx={{
-                    p: 4,
-                    textAlign: "center",
-                    border: "1px solid #ccc",
-                    borderRadius: "12px",
-                    boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                    backgroundColor: "#f9f9f9",
-                  }}
-                >
-                  <Box sx={{ mb: 2 }}>{step.icon}</Box>
-                  <Typography
-                    variant="h6"
-                    sx={{ fontWeight: "bold", color: "#004080", mb: 1 }}
-                  >
-                    Step {step.step}: {step.title}
-                  </Typography>
-                  <Typography variant="body1" sx={{ color: "#555" }}>
-                    {step.description}
-                  </Typography>
-                </Box>
-              </motion.div>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+
       {/* Interactive Features Section */}
       <Container sx={{ my: 8 }}>
         <Typography
@@ -315,27 +260,27 @@ const HomePage = () => {
             color: "#004080",
           }}
         >
-          Why Choose SEAM?
+          Our Unique Selling Points
         </Typography>
         <Grid container spacing={4}>
           {[
             {
-              title: "Secure Authentication",
+              title: "Advanced Security",
               description:
-                "Liveness detection ensures only authorized users access services.",
-              image: "https://via.placeholder.com/300?text=Authentication",
+                "Our cutting-edge encryption ensures maximum protection for your data.",
+              icon: "🔒", // Lock emoji
             },
             {
-              title: "Tamper-Proof Models",
+              title: "Seamless Integration",
               description:
-                "Encryption and obfuscation protect models from reverse engineering.",
-              image: "https://via.placeholder.com/300?text=Tamper+Proof",
+                "Easily integrates into existing systems for a hassle-free experience.",
+              icon: "🔗", // Link emoji
             },
             {
-              title: "Optimized for Networks",
+              title: "Real-Time Performance",
               description:
-                "Lightweight models ensure smooth transactions even on 3G networks.",
-              image: "https://via.placeholder.com/300?text=Optimized",
+                "Enjoy lightning-fast operations with our optimized processing algorithms.",
+              icon: "⚡", // Lightning bolt emoji
             },
           ].map((feature, index) => (
             <Grid item xs={12} md={4} key={index}>
@@ -352,18 +297,15 @@ const HomePage = () => {
                     overflow: "hidden",
                   }}
                 >
-                  <Box
-                    component="img"
-                    src={feature.image}
-                    alt={feature.title}
+                  <Typography
+                    variant="h3"
                     sx={{
-                      width: "100%",
-                      height: 200,
-                      objectFit: "cover",
+                      color: "#004080",
                       mb: 2,
-                      borderRadius: "8px",
                     }}
-                  />
+                  >
+                    {feature.icon}
+                  </Typography>
                   <Typography
                     variant="h6"
                     sx={{ fontWeight: "bold", color: "#004080", mb: 2 }}
@@ -449,6 +391,446 @@ const HomePage = () => {
             ))}
           </Slider>
         </Box>
+      </Container>
+      <Container sx={{ my: 8 }}>
+        <Typography
+          variant="h4"
+          sx={{
+            textAlign: "center",
+            fontWeight: "bold",
+            mb: 4,
+            color: "#004080",
+          }}
+        >
+          Our Key Features
+        </Typography>
+        <Grid container spacing={4}>
+          {[
+            {
+              title: "User-Friendly Design",
+              description:
+                "Intuitive interfaces that enhance user experience effortlessly.",
+              icon: "🖥️", // Monitor emoji
+            },
+            {
+              title: "Fast Verification",
+              description:
+                "Quick and accurate identity verification within seconds.",
+              icon: "⚡", // Lightning emoji
+            },
+            {
+              title: "Cross-Platform Support",
+              description:
+                "Access our services across mobile, desktop, and web seamlessly.",
+              icon: "📱", // Mobile phone emoji
+            },
+          ].map((feature, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Paper
+                  elevation={3}
+                  sx={{
+                    p: 4,
+                    borderRadius: "12px",
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: "#004080",
+                      mb: 2,
+                    }}
+                  >
+                    {feature.icon}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold", color: "#004080", mb: 2 }}
+                  >
+                    {feature.title}
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: "#555" }}>
+                    {feature.description}
+                  </Typography>
+                </Paper>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+      <Container
+        sx={{
+          my: 8,
+          backgroundColor: "#fff",
+          py: 6,
+          borderRadius: "16px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            boxShadow: "0 8px 40px rgba(0, 0, 0, 0.2)",
+          },
+        }}
+      >
+        <Typography
+          variant="h4"
+          sx={{
+            textAlign: "center",
+            fontWeight: "bold",
+            mb: 4,
+            color: "#004080",
+            textTransform: "uppercase",
+            letterSpacing: "2px",
+            fontSize: { xs: "24px", md: "32px" },
+          }}
+        >
+          Our Journey & Roadmap
+        </Typography>
+        <Grid container spacing={4}>
+          {[
+            {
+              date: "Q1 2024",
+              milestone: "Beta Release",
+              description:
+                "SEAM's beta version will be launched for early feedback and testing.",
+            },
+            {
+              date: "Q3 2024",
+              milestone: "Mobile App Integration",
+              description:
+                "Launch of the SEAM mobile app to enable seamless interaction.",
+            },
+            {
+              date: "Q1 2025",
+              milestone: "AI Integration",
+              description:
+                "Introducing AI-driven analytics for predictive accessibility solutions.",
+            },
+          ].map((timeline, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <Paper
+                elevation={3}
+                sx={{
+                  p: 4,
+                  borderRadius: "12px",
+                  textAlign: "center",
+                  backgroundColor: "#eef6fb",
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                    boxShadow: "0 8px 40px rgba(0, 0, 0, 0.1)",
+                  },
+                }}
+              >
+                <Typography
+                  variant="h5"
+                  sx={{
+                    color: "#004080",
+                    fontWeight: "bold",
+                    mb: 2,
+                    fontSize: { xs: "20px", md: "24px" },
+                  }}
+                >
+                  {timeline.date}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "#004080",
+                    fontWeight: "bold",
+                    mb: 2,
+                    fontSize: { xs: "18px", md: "20px" },
+                  }}
+                >
+                  {timeline.milestone}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{ color: "#555", fontSize: "14px" }}
+                >
+                  {timeline.description}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
+      <Container
+        sx={{
+          my: 8,
+          backgroundColor: "#f9f9f9",
+          py: 6,
+          borderRadius: "16px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+          transition: "all 0.3s ease",
+          "&:hover": {
+            boxShadow: "0 8px 40px rgba(0, 0, 0, 0.2)",
+          },
+        }}
+      >
+        <Typography
+          variant="h4"
+          sx={{
+            textAlign: "center",
+            fontWeight: "bold",
+            mb: 4,
+            color: "#004080",
+            textTransform: "uppercase",
+            letterSpacing: "2px",
+            fontSize: { xs: "24px", md: "32px" },
+          }}
+        >
+          Frequently Asked Questions
+        </Typography>
+        <Grid container spacing={4}>
+          {[
+            {
+              question: "How can SEAM be personalized for my organization?",
+              answer:
+                "SEAM offers customizable modules and features tailored to meet the specific needs of your organization, ensuring a solution that perfectly fits your accessibility requirements.",
+            },
+            {
+              question: "What types of devices are compatible with SEAM?",
+              answer:
+                "SEAM is designed to be highly flexible and can be integrated with a wide range of devices, including mobile phones, smartwatches, IoT-enabled devices, and accessible hardware solutions.",
+            },
+            {
+              question:
+                "How does SEAM improve mobility for individuals with disabilities?",
+              answer:
+                "SEAM utilizes cutting-edge technologies like GPS, AI, and real-time analytics to create intuitive mobility solutions that help users navigate spaces safely and independently, enhancing both access and mobility.",
+            },
+            {
+              question:
+                "Can SEAM be used for both physical and digital accessibility?",
+              answer:
+                "Absolutely! SEAM covers both physical accessibility, through tools like smart mobility aids, and digital accessibility, offering adaptive technologies to improve digital experiences for individuals with disabilities.",
+            },
+            {
+              question: "Is there support for multiple languages in SEAM?",
+              answer:
+                "Yes, SEAM supports multilingual interfaces to cater to diverse user groups across regions, making it easier for individuals from different linguistic backgrounds to access its features.",
+            },
+            {
+              question:
+                "How do I track the usage and effectiveness of SEAM solutions?",
+              answer:
+                "SEAM includes robust analytics tools that allow administrators and organizations to track usage, analyze data trends, and assess the effectiveness of the solutions in improving accessibility and mobility.",
+            },
+          ].map((faq, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <Paper
+                elevation={3}
+                sx={{
+                  p: 4,
+                  borderRadius: "12px",
+                  textAlign: "center",
+                  backgroundColor: "#eef6fb",
+                  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.05)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                    boxShadow: "0 8px 40px rgba(0, 0, 0, 0.1)",
+                  },
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    color: "#003366",
+                    fontWeight: "bold",
+                    mb: 2,
+                    fontSize: { xs: "16px", md: "18px" },
+                  }}
+                >
+                  {faq.question}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  sx={{ color: "#555", fontSize: "14px" }}
+                >
+                  {faq.answer}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+
+      <Container
+        sx={{ my: 8, backgroundColor: "#f9f9f9", py: 6, borderRadius: "16px" }}
+      >
+        <Typography
+          variant="h4"
+          sx={{
+            textAlign: "center",
+            fontWeight: "bold",
+            mb: 4,
+            color: "#004080",
+          }}
+        >
+          How SEAM Empowers You
+        </Typography>
+        <Grid container spacing={4}>
+          {[
+            {
+              title: "Customizable Solutions",
+              description:
+                "Tailor-made options to meet unique organizational requirements.",
+              icon: "⚙️", // Gear emoji
+            },
+            {
+              title: "Enhanced Accessibility",
+              description:
+                "Accessible solutions for individuals of all abilities.",
+              icon: "♿", // Wheelchair symbol emoji
+            },
+            {
+              title: "Robust Analytics",
+              description:
+                "Gain insights through detailed reporting and analytics tools.",
+              icon: "📊", // Bar chart emoji
+            },
+          ].map((feature, index) => (
+            <Grid item xs={12} md={4} key={index}>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Paper
+                  elevation={3}
+                  sx={{
+                    p: 4,
+                    borderRadius: "12px",
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h3"
+                    sx={{
+                      color: "#004080",
+                      mb: 2,
+                    }}
+                  >
+                    {feature.icon}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold", color: "#004080", mb: 2 }}
+                  >
+                    {feature.title}
+                  </Typography>
+                  <Typography variant="body1" sx={{ color: "#555" }}>
+                    {feature.description}
+                  </Typography>
+                </Paper>
+              </motion.div>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+      <Container
+        sx={{ my: 8, backgroundColor: "#e8f7f2", py: 6, borderRadius: "16px" }}
+      >
+        <Typography
+          variant="h4"
+          sx={{
+            textAlign: "center",
+            fontWeight: "bold",
+            mb: 4,
+            color: "#006b52",
+          }}
+        >
+          Contact Us
+        </Typography>
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={6}>
+            <Paper
+              elevation={3}
+              sx={{
+                p: 4,
+                borderRadius: "12px",
+                textAlign: "center",
+                backgroundColor: "#f2f9f5",
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{
+                  color: "#006b52",
+                  fontWeight: "bold",
+                  mb: 2,
+                }}
+              >
+                Reach Out To Us
+              </Typography>
+              <TextField
+                label="Name"
+                variant="outlined"
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Email"
+                variant="outlined"
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+              <TextField
+                label="Message"
+                variant="outlined"
+                multiline
+                rows={4}
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ width: "100%" }}
+              >
+                Send Message
+              </Button>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Paper
+              elevation={3}
+              sx={{
+                p: 4,
+                borderRadius: "12px",
+                textAlign: "center",
+                backgroundColor: "#f2f9f5",
+              }}
+            >
+              <Typography
+                variant="h5"
+                sx={{
+                  color: "#006b52",
+                  fontWeight: "bold",
+                  mb: 2,
+                }}
+              >
+                Visit Our Office
+              </Typography>
+              <Typography variant="body1" sx={{ color: "#555", mb: 2 }}>
+                1234, xxxxx,yyyyyy
+              </Typography>
+              <Button
+                variant="outlined"
+                color="secondary"
+                sx={{ width: "100%" }}
+              >
+                Get Directions
+              </Button>
+            </Paper>
+          </Grid>
+        </Grid>
       </Container>
 
       {/* Footer */}

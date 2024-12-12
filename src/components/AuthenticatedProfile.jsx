@@ -1,43 +1,35 @@
-import React, { useEffect } from "react";
-import { Paper, Box, Typography, Avatar } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  Paper,
+  Box,
+  Typography,
+  Avatar,
+  TextField,
+  Button,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import SecurityIcon from "@mui/icons-material/Security"; // Icon import
 
 const AuthenticatedProfile = ({ name, image, number }) => {
-  const navigate = useNavigate();
+  const [editableName, setEditableName] = useState(name);
+  const [editableImage, setEditableImage] = useState(image);
+  const [editableNumber, setEditableNumber] = useState(number);
+  const [document, setDocument] = useState(null);
+  const [updateSubmitted, setUpdateSubmitted] = useState(false); // Track if update has been submitted
 
-  // Session timeout settings
-  const inactivityPeriod = 0.5 * 60 * 1000; // 15 minutes in milliseconds
-  let sessionTimeout;
-
-  // Logout function
-  const logoutUser = () => {
-    alert("Session expired due to Inactivity. Redirecting to Home Page.");
-    // Clear any session data
-    localStorage.clear();
-    // Redirect to login page
-    navigate("/");
+  // Handle file upload
+  const handleFileChange = (event) => {
+    setDocument(event.target.files[0]);
   };
 
-  // Reset timer on user interaction
-  const resetTimer = () => {
-    clearTimeout(sessionTimeout);
-    sessionTimeout = setTimeout(logoutUser, inactivityPeriod);
+  // Handle form submission for Aadhaar update
+  const handleSubmit = () => {
+    // Here, you would typically send the updated data to the backend for processing.
+    console.log("Updated Name:", editableName);
+    console.log("Updated Image:", editableImage);
+    console.log("Uploaded Document:", document);
+    setUpdateSubmitted(true); // Mark update as submitted
   };
-
-  useEffect(() => {
-    // Start the session timeout timer
-    resetTimer();
-
-    // Add event listeners for user activity
-    const events = ["click", "mousemove", "keydown", "scroll", "touchstart"];
-    events.forEach((event) => window.addEventListener(event, resetTimer));
-
-    // Cleanup on component unmount
-    return () => {
-      clearTimeout(sessionTimeout);
-      events.forEach((event) => window.removeEventListener(event, resetTimer));
-    };
-  }, []); // Empty dependency array ensures this runs only once after component mounts
 
   if (!name) return null;
 
@@ -47,7 +39,7 @@ const AuthenticatedProfile = ({ name, image, number }) => {
       sx={{
         p: 4,
         width: "600px",
-        height: "475px",
+        height: "auto", // Adjusted to auto height based on content
         mx: "auto",
         mt: 5,
         textAlign: "center",
@@ -58,6 +50,7 @@ const AuthenticatedProfile = ({ name, image, number }) => {
         position: "relative",
       }}
     >
+      {/* Top Left Logo */}
       <Box
         component="img"
         src="/src/assets/logo-left.png"
@@ -70,6 +63,8 @@ const AuthenticatedProfile = ({ name, image, number }) => {
           height: 45,
         }}
       />
+
+      {/* Top Right Logo */}
       <Box
         component="img"
         src="/src/assets/logo-right.png"
@@ -82,6 +77,8 @@ const AuthenticatedProfile = ({ name, image, number }) => {
           height: 55,
         }}
       />
+
+      {/* Success Message */}
       <Typography
         variant="h5"
         gutterBottom
@@ -92,6 +89,8 @@ const AuthenticatedProfile = ({ name, image, number }) => {
       >
         Authentication Successful!
       </Typography>
+
+      {/* Byline */}
       <Typography
         variant="body2"
         gutterBottom
@@ -104,6 +103,8 @@ const AuthenticatedProfile = ({ name, image, number }) => {
       >
         Secure authentication via SEAM
       </Typography>
+
+      {/* Welcome Text */}
       <Typography
         variant="h6"
         gutterBottom
@@ -112,6 +113,8 @@ const AuthenticatedProfile = ({ name, image, number }) => {
         Welcome,{" "}
         <span style={{ color: "#2234a8", fontWeight: "bold" }}>{name}</span>!
       </Typography>
+
+      {/* Current User Details */}
       <Box
         sx={{
           display: "flex",
@@ -121,6 +124,7 @@ const AuthenticatedProfile = ({ name, image, number }) => {
           gap: 3,
         }}
       >
+        {/* Registered Image */}
         <Box>
           <Typography
             variant="subtitle1"
@@ -130,21 +134,108 @@ const AuthenticatedProfile = ({ name, image, number }) => {
               color: "#000",
             }}
           >
-            Your Aadhaar Number: {number}
+            Your Aadhaar Number: {editableNumber}
           </Typography>
         </Box>
         <Box>
           <Avatar
-            src={image}
+            src={editableImage}
             alt="Registered face"
             sx={{
-              width: 200,
-              height: 200,
+              width: 200, // Fixed width for the avatar
+              height: 200, // Fixed height for the avatar
               border: "2px solid #4caf50",
               boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
             }}
           />
         </Box>
+
+        {/* Editable Fields for Aadhaar Update */}
+        <Box sx={{ mt: 4 }}>
+          <Typography variant="h6" gutterBottom>
+            Update Your Details
+          </Typography>
+
+          {/* Editable Name */}
+          <TextField
+            label="Full Name"
+            variant="outlined"
+            fullWidth
+            value={editableName}
+            onChange={(e) => setEditableName(e.target.value)}
+            sx={{ mb: 2 }}
+          />
+
+          {/* Editable Aadhaar Number */}
+          <TextField
+            label="Aadhaar Number"
+            variant="outlined"
+            fullWidth
+            value={editableNumber}
+            onChange={(e) => setEditableNumber(e.target.value)}
+            sx={{ mb: 2 }}
+          />
+
+          {/* Image Update */}
+          <Button variant="contained" component="label" sx={{ mb: 2 }}>
+            Upload New Image
+            <input
+              type="file"
+              hidden
+              accept="image/*"
+              onChange={(e) =>
+                setEditableImage(URL.createObjectURL(e.target.files[0]))
+              }
+            />
+          </Button>
+
+          {/* Document Upload */}
+          <input
+            type="file"
+            onChange={handleFileChange}
+            style={{ marginBottom: "16px" }}
+          />
+          <Typography variant="body2" color="textSecondary">
+            Upload required documents (e.g., proof of name, address, etc.)
+          </Typography>
+
+          {/* Submit Button */}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            sx={{ mt: 3 }}
+          >
+            Submit Update Request
+          </Button>
+        </Box>
+
+        {/* Display "Get Started" Button After Update Submission */}
+        {updateSubmitted && (
+          <Button
+            variant="contained"
+            size="large"
+            component={Link}
+            to="/authenticate"
+            startIcon={<SecurityIcon />}
+            sx={{
+              mt: 4,
+              px: 4,
+              py: 2,
+              backgroundColor: "#2962FF",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "25px",
+              ":hover": {
+                backgroundColor: "#FFA500",
+              },
+            }}
+          >
+            Get Started
+          </Button>
+        )}
+
+        {/* Personalized Message */}
         <Typography
           variant="body6"
           sx={{
